@@ -25,10 +25,15 @@ impl Deck {
     fn shuffle(&mut self) {
         self.cards.shuffle(&mut rng());
     }
+
+    fn deal(&mut self, num_cards: usize) -> Vec<String> {
+        self.cards.split_off(self.cards.len() - num_cards)
+    }
 }
 
 fn main() {
     let mut deck = Deck::new();
     deck.shuffle();
-    println!("decks: {:#?}", deck);
+    let hand = deck.deal(5);
+    println!("{:#?}", hand);
 }
