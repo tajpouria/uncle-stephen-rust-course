@@ -34,6 +34,11 @@ struct Catalog {
     items: Vec<Media>,
 }
 
+enum CatalogItemOption<'a> {
+    Item(&'a Media),
+    NoItem,
+}
+
 impl Catalog {
     fn new() -> Catalog {
         Catalog { items: vec![] }
@@ -41,6 +46,14 @@ impl Catalog {
 
     fn add(&mut self, item: Media) {
         self.items.push(item);
+    }
+
+    fn get_by_index(&self, index: usize) -> CatalogItemOption {
+        if self.items.len() > index {
+            CatalogItemOption::Item(&self.items[index])
+        } else {
+            CatalogItemOption::NoItem
+        }
     }
 }
 
@@ -75,4 +88,14 @@ fn main() {
     catalog.add(placeholder);
 
     println!("Catalog: {:#?}", catalog);
+
+    match catalog.get_by_index(0) {
+        CatalogItemOption::Item(item) => println!("Got the item: {:#?}", item),
+        CatalogItemOption::NoItem => println!("There's no item"),
+    }
+    if let CatalogItemOption::Item(item) = catalog.get_by_index(100) {
+        println!("Got the item: {:#?}", item)
+    } else if let CatalogItemOption::NoItem = catalog.get_by_index(100) {
+        println!("No item!")
+    }
 }
