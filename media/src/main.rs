@@ -55,6 +55,14 @@ impl Catalog {
             CatalogItemOption::NoItem
         }
     }
+
+    fn get_by_index_option(&self, index: usize) -> Option<&Media> {
+        if self.items.len() > index {
+            Some(&self.items[index])
+        } else {
+            None
+        }
+    }
 }
 
 fn main() {
@@ -97,5 +105,10 @@ fn main() {
         println!("Got the item: {:#?}", item)
     } else if let CatalogItemOption::NoItem = catalog.get_by_index(100) {
         println!("No item!")
+    }
+
+    match catalog.get_by_index_option(0) {
+        Some(item) => println!("Got the item: {:#?}", item),
+        None => println!("No item!"),
     }
 }
